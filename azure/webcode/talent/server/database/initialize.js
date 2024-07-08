@@ -39,7 +39,7 @@ module.exports = function(connection) {
                         process.env.SA_URL + "thamilton.jpeg",
                         process.env.SA_URL + "jkramer.jpeg",
                         process.env.SA_URL + "bwhitford.jpeg",
-                        process.env.SA_URL + "cfarley.jpeg",
+                        process.env.SA_URL + "mfarley.jpeg",
                         process.env.SA_URL + "goneill.jpeg",
                         process.env.SA_URL + "evedder.jpeg",
                         process.env.SA_URL + "sgossard.jpeg",

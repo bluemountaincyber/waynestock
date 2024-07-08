@@ -37,7 +37,7 @@ export default function App() {
           <Message negative size="large">
                 <MessageHeader>Banned Food Update</MessageHeader>
                 <p>
-                    Do to the recent rise in bad red rope licorice, we have decided to ban all red rope licorice from the festival. We apologize for any inconvenience this may cause.
+                We've had some word that there is some bad red rope licorice circulating in the area and it will be banned at this festival. Please stay away from the red rope licorice. Do not bite any off or chew it. It could cause a dental emergency.
                 </p>
             </Message>
         </Modal>
