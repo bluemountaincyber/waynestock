@@ -21,13 +21,13 @@ resource "azurerm_storage_container" "homepage-sc" {
 }
 
 resource "azurerm_storage_blob" "homepage-files" {
-  for_each               = fileset("${path.module}/webcode/homepage", "**/*")
+  for_each               = fileset("${path.module}/webcode/homepage/server", "**/*")
   name                   = each.key
   storage_account_name   = azurerm_storage_account.homepage-sa.name
   storage_container_name = azurerm_storage_container.homepage-sc.name
   type                   = "Block"
-  source                 = "${path.root}/webcode/homepage/${each.key}"
-  content_md5            = filemd5("${path.root}/webcode/homepage/${each.key}")
+  source                 = "${path.root}/webcode/homepage/server/${each.key}"
+  content_md5            = filemd5("${path.root}/webcode/homepage/server/${each.key}")
 }
 
 data "azurerm_storage_account_sas" "token" {
