@@ -1,0 +1,1 @@
+{"version":3,"file":"static/css/main.5cc865b1.css","mappings":"AAAA,gBACE,sBACF,CAEA,2CACE,WACF","sources":["components/App.css"],"sourcesContent":[".ui.table tr td {\n  border-top: 0px !important;\n}\n\n.ui.card>.content, .ui.cards>.card>.content {\n  flex-grow: 0;\n}"],"names":[],"sourceRoot":""}

@@ -1,0 +1,200 @@
+[
+    {
+        "id": 1,
+        "first": "Frankie",
+        "last": "Sharp",
+        "role": "Owner: Sharp Records"
+    },
+    {
+        "id": 2,
+        "first": "Bobby",
+        "last": "Cahn",
+        "role": "Producer: Sharp Records"
+    },
+    {
+        "id": 3,
+        "first": "Handsome",
+        "last": "Dan",
+        "role": "DJ: WPIG"
+    },
+    {
+        "id": 4,
+        "first": "Mister",
+        "last": "Scream",
+        "role": "Personality: WPIG"
+    },
+    {
+        "id": 5,
+        "first": "Bjergen",
+        "last": "Kjergen",
+        "role": "Receptionist: WPIG"
+    },
+    {
+        "id": 6,
+        "first": "Cassandra",
+        "last": "Wong",
+        "role": "Performer: Crucial Taunt"
+    },
+    {
+        "id": 7,
+        "first": "George",
+        "last": "Foster",
+        "role": "Performer: Crucial Taunt"
+    },
+    {
+        "id": 8,
+        "first": "Anthony",
+        "last": "Focx",
+        "role": "Performer: Crucial Taunt"
+    },
+    {
+        "id": 9,
+        "first": "Marc",
+        "last": "Ferrari",
+        "role": "Performer: Crucial Taunt"
+    },
+    {
+        "id": 10,
+        "first": "Benjamin",
+        "last": "Oliver",
+        "role": "Television Producer"
+    },
+    {
+        "id": 11,
+        "first": "Wayne",
+        "last": "Campbell",
+        "role": "Host: Wayne's World"
+    },
+    {
+        "id": 12,
+        "first": "Garth",
+        "last": "Algar",
+        "role": "Co-Host: Wayne's World"
+    },
+    {
+        "id": 13,
+        "first": "Noah",
+        "last": "Vanderhoff",
+        "role": "Sponsor: Noah's Arcade"
+    },
+    {
+        "id": 14,
+        "first": "Russell",
+        "last": "Finley",
+        "role": "Television Producer"
+    },
+    {
+        "id": 15,
+        "first": "Del",
+        "last": "Preston",
+        "role": "Roadie: Crucial Taunt"
+    },
+    {
+        "id": 16,
+        "first": "Ron",
+        "last": "Paxton",
+        "role": "Security Guard: Sharp Records"
+    },
+    {
+        "id": 17,
+        "first": "Steven",
+        "last": "Tyler",
+        "role": "Performer: Aerosmith"
+    },
+    {
+        "id": 18,
+        "first": "Joe",
+        "last": "Perry",
+        "role": "Performer: Aerosmith"
+    },
+    {
+        "id": 19,
+        "first": "Tom",
+        "last": "Hamilton",
+        "role": "Performer: Aerosmith"
+    },
+    {
+        "id": 20,
+        "first": "Joey",
+        "last": "Kramer",
+        "role": "Performer: Aerosmith"
+    },
+    {
+        "id": 21,
+        "first": "Brad",
+        "last": "Whitford",
+        "role": "Performer: Aerosmith"
+    },
+    {
+        "id": 22,
+        "first": "Chris",
+        "last": "Farley",
+        "role": "Security Guard: Aerosmith"
+    },
+    {
+        "id": 23,
+        "first": "Glen",
+        "last": "O'Neill",
+        "role": "Sponsor: Mikita's Donuts"
+    },
+    {
+        "id": 24,
+        "first": "Eddie",
+        "last": "Vedder",
+        "role": "Performer: Pearl Jam"
+    },
+    {
+        "id": 25,
+        "first": "Stone",
+        "last": "Gossard",
+        "role": "Performer: Pearl Jam"
+    },
+    {
+        "id": 26,
+        "first": "Jeff",
+        "last": "Ament",
+        "role": "Performer: Pearl Jam"
+    },
+    {
+        "id": 27,
+        "first": "Mike",
+        "last": "McCready",
+        "role": "Performer: Pearl Jam"
+    },
+    {
+        "id": 28,
+        "first": "Dave",
+        "last": "Abbruzzese",
+        "role": "Performer: Pearl Jam"
+    },
+    {
+        "id": 29,
+        "first": "Eddie",
+        "last": "Van Halen",
+        "role": "Performer: Van Halen"
+    },
+    {
+        "id": 30,
+        "first": "Alex",
+        "last": "Van Halen",
+        "role": "Performer: Van Halen"
+    },
+    {
+        "id": 31,
+        "first": "Michael",
+        "last": "Anthony",
+        "role": "Performer: Van Halen"
+    },
+    {
+        "id": 32,
+        "first": "Sammy",
+        "last": "Hagar",
+        "role": "Performer: Van Halen"
+    },
+    {
+        "id": 33,
+        "first": "Rip",
+        "last": "Taylor",
+        "role": "Performer: Himself"
+    }
+]

@@ -1,0 +1,200 @@
+[
+    {
+        "id": 1,
+        "address": "1234 Elm St",
+        "phone": "630-555-1234",
+        "email": "frankie@sharp-records.co"
+    },
+    {
+        "id": 2,
+        "address": "5678 Oak St",
+        "phone": "630-555-5678",
+        "email": "bcahn@sharp-records.co"
+    },
+    {
+        "id": 3,
+        "address": "91011 Pine St",
+        "phone": "630-555-9101",
+        "email": "hdan@wpig.net"
+    },
+    {
+        "id": 4,
+        "address": "121314 Maple St",
+        "phone": "630-555-1214",
+        "email": "mscream@wpig.net"
+    },
+    {
+        "id": 5,
+        "address": "151617 Birch St",
+        "phone": "630-555-1516",
+        "email": "bkjergen@wpig.net"
+    },
+    {
+        "id": 6,
+        "address": "181920 Cedar St",
+        "phone": "630-555-1810",
+        "email": "cwong@crucialtaunt.com"
+    },
+    {
+        "id": 7,
+        "address": "212223 Walnut St",
+        "phone": "630-555-2122",
+        "email": "gfoster@crucialtaunt.com"
+    },
+    {
+        "id": 8,
+        "address": "242526 Elm St",
+        "phone": "630-555-2452",
+        "email": "afocx@crucialtaunt.com"
+    },
+    {
+        "id": 9,
+        "address": "272829 Oak St",
+        "phone": "630-555-2728",
+        "email": "mferrari@crucialtaunt.com"
+    },
+    {
+        "id": 10,
+        "address": "303132 Pine St",
+        "phone": "630-555-3033",
+        "email": "boliver@benoliver.com"
+    },
+    {
+        "id": 11,
+        "address": "333435 Maple St",
+        "phone": "630-555-0935",
+        "email": "wcampbell@waynestock.com"
+    },
+    {
+        "id": 12,
+        "address": "363738 Birch St",
+        "phone": "630-555-3678",
+        "email": "galgar@waynestock.com"
+    },
+    {
+        "id": 13,
+        "address": "394041 Cedar St",
+        "phone": "630-555-9401",
+        "email": "nvanderhoff@noahsarcade.co"
+    },
+    {
+        "id": 14,
+        "address": "424344 Walnut St",
+        "phone": "630-555-4244",
+        "email": "rfinley@benoliver.com"
+    },
+    {
+        "id": 15,
+        "address": "454647 Elm St",
+        "phone": "630-555-4546",
+        "email": "dpreston@delprestonroadies.com"
+    },
+    {
+        "id": 16,
+        "address": "454647 Elm St",
+        "phone": "630-555-4501",
+        "email": "rpaxton@sharp-records.co"
+    },
+    {
+        "id": 17,
+        "address": "484950 Oak St",
+        "phone": "630-555-4849",
+        "email": "steven@aerosmith.com"
+    },
+    {
+        "id": 18,
+        "address": "515253 Pine St",
+        "phone": "630-555-5152",
+        "email": "joe@aerosmith.com"
+    },
+    {
+        "id": 19,
+        "address": "545556 Maple St",
+        "phone": "630-555-5455",
+        "email": "tom@aerosmith.com"
+    },
+    {
+        "id": 20,
+        "address": "575859 Birch St",
+        "phone": "630-555-5758",
+        "email": "joey@aerosmith.com"
+    },
+    {
+        "id": 21,
+        "address": "606162 Cedar St",
+        "phone": "630-555-6061",
+        "email": "brad@aerosmith.com"
+    },
+    {
+        "id": 22,
+        "address": "636465 Walnut St",
+        "phone": "630-555-6364",
+        "email": "cfarley@sharp-records.co"
+    },
+    {
+        "id": 23,
+        "address": "666768 Elm St",
+        "phone": "630-555-6667",
+        "email": "glen@mikitas.com"
+    },
+    {   
+        "id": 24,
+        "address": "697071 Oak St",
+        "phone": "630-555-6970",
+        "email": "vedder@pearljam.com"
+    },
+    {   
+        "id": 25,
+        "address": "727374 Pine St",
+        "phone": "630-555-7273",
+        "email": "gossard@pearljam.com"
+    },
+    {   
+        "id": 26,
+        "address": "757677 Maple St",
+        "phone": "630-555-7576",
+        "email": "ament@pearljam.com"
+    },
+    {   
+        "id": 27,
+        "address": "787980 Birch St",
+        "phone": "630-555-7879",
+        "email": "mccready@pearljam.com"
+    },
+    {   
+        "id": 28,
+        "address": "808182 Cedar St",
+        "phone": "630-555-8081",
+        "email": "abbruzzese@pearljam.com"
+    },
+    {   
+        "id": 29,
+        "address": "838485 Walnut St",
+        "phone": "630-555-8384",
+        "email": "eddie@vanhalen.com"
+    },
+    {   
+        "id": 30,
+        "address": "858687 Elm St",
+        "phone": "630-555-8586",
+        "email": "alex@vanhalen.com"
+    },
+    {   
+        "id": 31,
+        "address": "888990 Oak St",
+        "phone": "630-555-8889",
+        "email": "mikey@vanhalen.com"
+    },
+    {   
+        "id": 32,
+        "address": "919293 Pine St",
+        "phone": "630-555-9192",
+        "email": "notdave@vanhalen.com"
+    },
+    {   
+        "id": 33,
+        "address": "949596 Maple St",
+        "phone": "630-555-9495",
+        "email": "rip@riptaylor.com"
+    }
+]

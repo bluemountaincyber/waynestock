@@ -1,0 +1,25 @@
+#!/bin/bash
+
+apt update
+apt upgrade -y
+apt install -y apache2 php
+curl -sL https://aka.ms/InstallAzureCLIDeb | bash
+cat <<EOF > /root/copy-webcode.sh
+#!/bin/bash
+
+SAS_TOKEN="${sas_token}"
+STORAGE_ACCOUNT="${storage_account}"
+CONTAINER_NAME="${container_name}"
+az storage blob download-batch --account-name "\$STORAGE_ACCOUNT" \
+  --sas-token "\$SAS_TOKEN" --destination /var/www/html \
+  --source "\$CONTAINER_NAME" --overwrite
+EOF
+
+chmod +x /root/copy-webcode.sh
+cat <<EOF | tee -a /etc/crontab
+*/5 * * * * root /root/copy-webcode.sh
+EOF
+systemctl restart cron apache2
+
+curl -o /var/www/user-agents.csv https://raw.githubusercontent.com/mthcht/awesome-lists/main/Lists/suspicious_http_user_agents_list.csv
+chmod 644 /var/www/user-agents.csv
