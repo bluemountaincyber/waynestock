@@ -1,43 +1,29 @@
-import React from "react";
+import React, {Component} from "react";
+import {
+    Confirm
+} from "semantic-ui-react";
 
-export default function Modal({ children, onClose }) {
-    const styles = {
-        overlay: {
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: 'rgba(0, 0, 0, 0.7)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
-        },
-        modal: {
-            backgroundColor: 'white',
-            padding: '20px',
-            borderRadius: '8px',
-            position: 'relative',
-            width: '80%',
-            maxWidth: '500px'
-        },
-        closeButton: {
-            position: 'absolute',
-            top: '20px',
-            right: '20px',
-            background: 'transparent',
-            border: 'none',
-            fontSize: '18px',
-            cursor: 'pointer'
-        }
-    };
+export default class Modal extends Component {
+    state = { open: true }
 
+    show = () => {
+        this.setState({ open: true })
+    }
+    handleConfirm = () => {
+        this.setState({ open: false })
+    }
+    handleCancel = () => this.setState({ open: false })
+
+  render() {
     return (
-        <div style={styles.overlay}>
-            <div style={styles.modal}>
-                {children}
-                <button style={styles.closeButton} onClick={onClose}>X</button>
-            </div>
-        </div>
-    );
+      <div>
+        <Confirm
+          open={this.state.open}
+          content="We've had some word that there is some bad red rope licorice circulating in the area and it will be banned at this festival. Please stay away from the red rope licorice. Do not bite any off or chew it. It could cause a dental emergency."
+          onCancel={this.handleCancel}
+          onConfirm={this.handleConfirm}
+        />
+      </div>
+    )
+  }
 }

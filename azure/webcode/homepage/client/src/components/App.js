@@ -9,19 +9,16 @@ import {
   Container,
   Menu,
   MenuHeader,
-  MenuItem,
-  Message,
-  MessageHeader
+  MenuItem
 } from "semantic-ui-react"
 import Home from "./Home";
 import Tickets from './Tickets';
 import About from "./About";
 import Lineup from "./Lineup";
 import Modal from "./Modal";
-import React, { useState } from "react";
+import React from "react";
 
 export default function App() {
-  const [isModalOpen, setModalOpen] = useState(true);
 
   const menuStyle = {
     marginTop: "10px",
@@ -31,17 +28,8 @@ export default function App() {
     height: "30px"
   }
   return (
-    <Container>
-      {isModalOpen && (
-        <Modal onClose={() => setModalOpen(false)}>
-          <Message negative size="large">
-                <MessageHeader>Banned Food Update</MessageHeader>
-                <p>
-                We've had some word that there is some bad red rope licorice circulating in the area and it will be banned at this festival. Please stay away from the red rope licorice. Do not bite any off or chew it. It could cause a dental emergency.
-                </p>
-            </Message>
-        </Modal>
-      )}
+    <Container style={{height: "100vh"}}>
+      <Modal />
       <BrowserRouter>
         <Menu secondary style={menuStyle}>
           <MenuHeader>
