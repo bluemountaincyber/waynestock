@@ -1,9 +1,13 @@
 {
   "files": {
-    "main.css": "/static/css/main.76ec8c20.css",
-    "main.js": "/static/js/main.e1b6f643.js",
+    "main.css": "/static/css/main.07ec25bd.css",
+    "main.js": "/static/js/main.06c156e7.js",
+    "static/media/aerosmith.jpeg": "/static/media/aerosmith.697939deaec9358bb7ee.jpeg",
+    "static/media/pearljam.jpeg": "/static/media/pearljam.752229e74da0bcc4883d.jpeg",
+    "static/media/crucialtaunt.jpeg": "/static/media/crucialtaunt.89a704d3a3518c144ab0.jpeg",
     "static/media/brand-icons.svg": "/static/media/brand-icons.6729d29753e000c17489.svg",
     "static/media/icons.svg": "/static/media/icons.62d9dae4e0040e81c980.svg",
+    "static/media/waynestock-stage.jpeg": "/static/media/waynestock-stage.41ebd73309f364d161b3.jpeg",
     "static/media/outline-icons.svg": "/static/media/outline-icons.9c4845b4b41ef40a22fa.svg",
     "static/media/icons.eot": "/static/media/icons.a01e3f2d6c83dc3aee17.eot",
     "static/media/icons.ttf": "/static/media/icons.c656b8caa454ed19b9a2.ttf",
@@ -12,6 +16,7 @@
     "static/media/brand-icons.woff": "/static/media/brand-icons.cac87dc00c87a5d74711.woff",
     "static/media/brand-icons.woff2": "/static/media/brand-icons.278156e41e0ad908cf7f.woff2",
     "static/media/icons.woff": "/static/media/icons.425399f81e4ce7cbd967.woff",
+    "static/media/vanhalen.jpeg": "/static/media/vanhalen.ad2ab3b70169b80b6157.jpeg",
     "static/media/icons.woff2": "/static/media/icons.38c6d8bab26db77d8c80.woff2",
     "static/media/outline-icons.eot": "/static/media/outline-icons.752905fa5edf21fc52a1.eot",
     "static/media/outline-icons.ttf": "/static/media/outline-icons.5367103510b27b784827.ttf",
@@ -19,11 +24,11 @@
     "static/media/outline-icons.woff": "/static/media/outline-icons.ddae9b1ba9b0b42f5880.woff",
     "static/media/outline-icons.woff2": "/static/media/outline-icons.687a4990ea22bb1a49d4.woff2",
     "index.html": "/index.html",
-    "main.76ec8c20.css.map": "/static/css/main.76ec8c20.css.map",
-    "main.e1b6f643.js.map": "/static/js/main.e1b6f643.js.map"
+    "main.07ec25bd.css.map": "/static/css/main.07ec25bd.css.map",
+    "main.06c156e7.js.map": "/static/js/main.06c156e7.js.map"
   },
   "entrypoints": [
-    "static/css/main.76ec8c20.css",
-    "static/js/main.e1b6f643.js"
+    "static/css/main.07ec25bd.css",
+    "static/js/main.06c156e7.js"
   ]
 }
