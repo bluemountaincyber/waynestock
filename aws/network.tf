@@ -46,6 +46,7 @@ resource "aws_apigatewayv2_deployment" "dev_deploy" {
   }
 
   depends_on = [ 
-    aws_apigatewayv2_integration.store_int
+    aws_apigatewayv2_integration.store_int,
+    aws_apigatewayv2_route.route
   ]
 }
