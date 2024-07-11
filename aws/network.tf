@@ -113,6 +113,9 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     target_origin_id = local.apigw_origin_id
     forwarded_values {
       query_string = true
+      headers = [
+        "Authorization"
+      ]
       cookies {
         forward = "all"
       }
@@ -139,8 +142,8 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
 
     viewer_protocol_policy = "allow-all"
     min_ttl                = 0
-    default_ttl            = 60
-    max_ttl                = 120
+    default_ttl            = 0
+    max_ttl                = 0
 
     function_association {
       event_type   = "viewer-request"
