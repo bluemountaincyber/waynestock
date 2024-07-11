@@ -130,7 +130,7 @@ resource "aws_cognito_user" "user" {
 resource "aws_cognito_user_pool_client" "store_upc" {
   name                                 = "client"
   user_pool_id                         = aws_cognito_user_pool.store_pool.id
-  callback_urls                        = ["https://example.com"]
+  callback_urls                        = ["${aws_apigatewayv2_api.store_api.api_endpoint}/dev/buy"]
   allowed_oauth_flows_user_pool_client = true
   allowed_oauth_flows                  = ["code", "implicit"]
   allowed_oauth_scopes                 = ["email", "openid"]
@@ -145,6 +145,17 @@ resource "aws_cognito_user_pool_domain" "main_domain" {
 resource "aws_cognito_user_pool_ui_customization" "login_ui_customization" {
   client_id = aws_cognito_user_pool_client.store_upc.id
   css        = ".label-customizable {font-weight: 400;}"
-  image_file = filebase64("${path.module}/webcode/store/static/waynestock-logo.png")
+  image_file = filebase64("${path.module}/webcode/store/client/src/images/waynestock-logo.png")
   user_pool_id = aws_cognito_user_pool_domain.main_domain.user_pool_id
+}
+
+resource "aws_s3_bucket" "store_static" {
+  bucket_prefix = "storestatic${random_string.random.result}"
+}
+
+resource "aws_s3_object" "store_static_files" {
+  for_each = fileset("${path.module}/webcode/store/storage", "**/*")
+  bucket   = aws_s3_bucket.store_static.bucket
+  key      = each.value
+  source   = "${path.module}/webcode/store/storage/${each.value}"
 }
