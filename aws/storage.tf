@@ -1,5 +1,12 @@
 locals {
   user_info = jsondecode(file("${path.module}/users.json"))
+  content_types = {
+    css  = "text/css"
+    html = "text/html"
+    js   = "application/javascript"
+    json = "application/json"
+    txt  = "text/plain"
+  }
 }
 
 resource "random_string" "random" {
@@ -128,9 +135,11 @@ resource "aws_cognito_user" "user" {
 }
 
 resource "aws_cognito_user_pool_client" "store_upc" {
-  name                                 = "client"
-  user_pool_id                         = aws_cognito_user_pool.store_pool.id
-  callback_urls                        = ["${aws_apigatewayv2_api.store_api.api_endpoint}/dev/buy"]
+  name         = "client"
+  user_pool_id = aws_cognito_user_pool.store_pool.id
+  callback_urls = [
+    "https://${aws_cloudfront_distribution.s3_distribution.domain_name}"
+  ]
   allowed_oauth_flows_user_pool_client = true
   allowed_oauth_flows                  = ["code", "implicit"]
   allowed_oauth_scopes                 = ["email", "openid"]
@@ -143,19 +152,21 @@ resource "aws_cognito_user_pool_domain" "main_domain" {
 }
 
 resource "aws_cognito_user_pool_ui_customization" "login_ui_customization" {
-  client_id = aws_cognito_user_pool_client.store_upc.id
-  css        = ".label-customizable {font-weight: 400;}"
-  image_file = filebase64("${path.module}/webcode/store/client/src/images/waynestock-logo.png")
+  client_id    = aws_cognito_user_pool_client.store_upc.id
+  css          = ".label-customizable {font-weight: 400;}"
+  image_file   = filebase64("${path.module}/webcode/store/client/src/images/waynestock-logo.png")
   user_pool_id = aws_cognito_user_pool_domain.main_domain.user_pool_id
 }
 
 resource "aws_s3_bucket" "store_static" {
-  bucket_prefix = "storestatic${random_string.random.result}"
+  bucket = "storestatic${random_string.random.result}"
 }
 
 resource "aws_s3_object" "store_static_files" {
-  for_each = fileset("${path.module}/webcode/store/storage", "**/*")
-  bucket   = aws_s3_bucket.store_static.bucket
-  key      = each.value
-  source   = "${path.module}/webcode/store/storage/${each.value}"
+  for_each         = fileset("${path.module}/webcode/store/storage", "**/*")
+  bucket           = aws_s3_bucket.store_static.bucket
+  key              = each.value
+  source           = "${path.module}/webcode/store/storage/${each.value}"
+  content_type     = lookup(local.content_types, element(split(".", each.value), length(split(".", each.value)) - 1), "text/plain")
+  content_encoding = "utf-8"
 }
