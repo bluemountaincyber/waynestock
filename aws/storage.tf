@@ -1,5 +1,6 @@
 locals {
   user_info = jsondecode(file("${path.module}/users.json"))
+  seats = jsondecode(file("${path.module}/seats.json"))
   content_types = {
     css  = "text/css"
     html = "text/html"
@@ -85,37 +86,39 @@ resource "aws_cognito_user_pool" "store_pool" {
   }
 }
 
-# resource "aws_dynamodb_table" "store-users" {
-#     name           = "store-users"
-#     billing_mode   = "PAY_PER_REQUEST"
-#     hash_key       = "username"
-#     stream_enabled = true
-#     stream_view_type = "NEW_AND_OLD_IMAGES"
+resource "aws_dynamodb_table" "store-seats" {
+    name           = "seats"
+    billing_mode   = "PAY_PER_REQUEST"
+    hash_key       = "section"
+    range_key      = "seat_id"
+    stream_enabled = true
+    stream_view_type = "NEW_AND_OLD_IMAGES"
 
-#     attribute {
-#         name = "username"
-#         type = "S"
-#     }
-# }
+    attribute {
+        name = "seat_id"
+        type = "S"
+    }
+    attribute {
+        name = "section"
+        type = "N"
+    }
+}
 
-# resource "aws_dynamodb_table_item" "users" {
-#     for_each = { for user in local.user_info.users : user.username => user }
-#     table_name = aws_dynamodb_table.store-users.name
-#     hash_key = aws_dynamodb_table.store-users.hash_key
-#     item = <<EOF
-# {
-#     "username": {"S": "${each.key}"},
-#     "first": {"S": "${each.value.first}"},
-#     "last": {"S": "${each.value.last}"},
-#     "street": {"S": "${each.value.street}"},
-#     "city": {"S": "${each.value.city}"},
-#     "state": {"S": "${each.value.state}"},
-#     "country": {"S": "${each.value.country}"},
-#     "phone": {"S": "${each.value.phone}"},
-#     "password": {"S": "${each.value.password}"}
-# }
-# EOF
-# }
+resource "aws_dynamodb_table_item" "seats" {
+    for_each = { for seat in local.seats.seatingChart : seat.seat_id => seat }
+    table_name = aws_dynamodb_table.store-seats.name
+    hash_key = aws_dynamodb_table.store-seats.hash_key
+    range_key = aws_dynamodb_table.store-seats.range_key
+    item = <<EOF
+{
+    "section": {"N": "${each.value.section}"},
+    "row": {"N": "${each.value.row}"},
+    "seat": {"N": "${each.value.seat}"},
+    "seat_id": {"S": "${each.value.seat_id}"},
+    "available": {"BOOL": ${each.value.available}}
+}
+EOF
+}
 
 resource "aws_cognito_user" "user" {
   for_each       = { for user in local.user_info.users : user.username => user }
