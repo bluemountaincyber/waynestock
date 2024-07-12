@@ -1,3 +1,3 @@
-output "api_gateway_url" {
-  value = aws_apigatewayv2_stage.dev_stage.invoke_url
+output "app_url" {
+  value = "https://${aws_cloudfront_distribution.s3_distribution.domain_name}"
 }
