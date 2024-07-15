@@ -1,78 +1,76 @@
 import './App.css';
-import queryString from 'query-string';
-import axios from 'axios';
+import querystring from 'query-string';
+import Navigation from './Navigation';
+import Tickets from './Tickets';
+import Purchase from './Purchase';
+import React, {
+  useEffect,
+  useState
+} from 'react';
 import {
-  Container,
-  Menu,
-  MenuHeader,
-  MenuItem,
-} from 'semantic-ui-react'
-import {
-  BrowserRouter,
-  Link,
+  BrowserRouter as Router,
   Route,
   Routes
 } from 'react-router-dom';
-import { jwtDecode } from "jwt-decode";
-import waynestockLogo from '../images/waynestock-logo.png';
-import Home from './Home';
-import Tickets from './Tickets';
+import { jwtDecode } from 'jwt-decode';
 
 export default function App() {
-  const menuStyle = {
-    marginTop: "10px",
-  }
-  const imgStyle = {
-    margin: "auto",
-    height: "30px"
+  const hash = window.location.hash
+  const pathName = window.location.pathname
+  const token = querystring.parse(hash).access_token
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const checkTokenValidity = (forward) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      setIsLoggedIn(true)
+      try {
+        const decoded = jwtDecode(token)
+        const currentTime = Date.now() / 1000;
+        if (decoded.exp < currentTime) {
+          localStorage.removeItem('token');
+          setIsLoggedIn(false);
+        }
+      } catch (e) {
+        console.log("Invalid token. Removing...")
+        localStorage.removeItem('token');
+        setIsLoggedIn(false)
+      }
+      if (forward) {
+        window.location.replace(window.location.origin)
+      }
+    }
   }
 
-  const access_token = queryString.parse(window.location.hash).access_token
-  if (access_token) {
-    localStorage.setItem('token', access_token)
-    window.location.href = window.location.origin
-  }
+  useEffect(() => {
+    if (token) {
+      localStorage.setItem('token', token);
+      checkTokenValidity(true)
+    } else if (localStorage.getItem('token')) {
+      checkTokenValidity(false)
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, [token]);
 
-  if (localStorage.getItem('token')) {
-    console.log(jwtDecode(localStorage.getItem('token')))
-    axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token')
-  }
-
-  function logoff() {
+  function logout() {
     localStorage.removeItem('token');
-    axios.defaults.headers.common['Authorization'] = '';
-    window.location.href = window.location.origin;
-  }
-
-  function login() {
-    window.location.href = window.location.origin + "/api/login"
+    setIsLoggedIn(false);
   }
 
   return (
-    <Container style={{ height: "100vh" }}>
-      <BrowserRouter>
-        <Menu secondary style={menuStyle}>
-          <MenuHeader>
-            <img src={waynestockLogo} alt="Waynestock logo" style={imgStyle} />
-          </MenuHeader>
-          <MenuItem>
-            <Link to="/">Home</Link>
-          </MenuItem>
-          <MenuItem>
-            <Link to="/tickets">Tickets</Link>
-          </MenuItem>
-          <MenuItem>
-            {access_token ?
-              <Link to="/" onClick={() => logoff()}>Logout</Link> :
-              <Link to="/" onClick={() => login()}>Login</Link>
-            }
-          </MenuItem>
-        </Menu>
+    <div className="home">
+      <Navigation isLoggedIn={isLoggedIn} logout={logout} />
+      <h1 className="centered">Welcome to WayneStock!</h1>
+      {isLoggedIn && pathName !== "/purchase" ?
+        <Tickets /> :
+        !isLoggedIn ?
+        <span className="centered">Please log in to purchase tickets</span> : null }
+      <Router>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/tickets" element={<Tickets />} />
+          <Route path="/purchase" element={<Purchase search={window.location.search}/>} />
         </Routes>
-      </BrowserRouter>
-    </Container>
+      </Router>
+    </div>
   );
 }

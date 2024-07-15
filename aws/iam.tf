@@ -39,10 +39,103 @@ resource "aws_iam_role_policy_attachment" "redirect_lambda" {
   policy_arn = aws_iam_policy.redirect_lambda.arn
 }
 
+resource "aws_iam_policy" "get_seats" {
+  name        = "GetSeatsLambdaPolicy"
+  description = "Policy for get-seats"
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "dynamodb:Scan"
+        ]
+        Resource = aws_dynamodb_table.store_seats.arn
+      },
+      {
+        Effect = "Allow"
+        Action = [
+          "logs:CreateLogStream",
+          "logs:PutLogEvents"
+        ]
+        Resource = "arn:aws:logs:*:*:*"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role" "get_seats" {
+  name               = "GetSeatsLambda"
+  assume_role_policy = data.aws_iam_policy_document.redirect_assume_role.json
+}
+
+resource "aws_iam_role_policy_attachment" "get_seats" {
+  role       = aws_iam_role.get_seats.name
+  policy_arn = aws_iam_policy.get_seats.arn
+}
+
+resource "aws_iam_policy" "purchase_seats" {
+  name        = "PurchaseSeatsLambdaPolicy"
+  description = "Policy for purchase-seats"
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "dynamodb:*"
+        ]
+        Resource = aws_dynamodb_table.store_seats.arn
+      },
+      {
+        Effect = "Allow"
+        Action = [
+          "s3:PutObject"
+        ]
+        Resource = "${aws_s3_bucket.store_transactions.arn}/*"
+      },
+      {
+        Effect = "Allow"
+        Action = [
+          "logs:CreateLogStream",
+          "logs:PutLogEvents"
+        ]
+        Resource = "arn:aws:logs:*:*:*"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role" "purchase_seats" {
+  name               = "PurchaseSeatsLambda"
+  assume_role_policy = data.aws_iam_policy_document.redirect_assume_role.json
+}
+
+resource "aws_iam_role_policy_attachment" "purchase_seats" {
+  role       = aws_iam_role.purchase_seats.name
+  policy_arn = aws_iam_policy.purchase_seats.arn
+}
+
 resource "aws_lambda_permission" "apigw_login" {
   statement_id  = "AllowAPIGatewayInvoke"
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.redirect_login.function_name
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_apigatewayv2_api.store_api.execution_arn}/*/*/*"
+}
+
+resource "aws_lambda_permission" "apigw_seats" {
+  statement_id  = "AllowAPIGatewayInvoke"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.get_seats.function_name
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_apigatewayv2_api.store_api.execution_arn}/*/*/*"
+}
+
+resource "aws_lambda_permission" "apigw_purchase" {
+  statement_id  = "AllowAPIGatewayInvoke"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.purchase_seats.function_name
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${aws_apigatewayv2_api.store_api.execution_arn}/*/*/*"
 }

@@ -20,14 +20,6 @@ resource "aws_apigatewayv2_authorizer" "store_auth" {
   }
 }
 
-resource "aws_apigatewayv2_integration" "buy_int" {
-  api_id             = aws_apigatewayv2_api.store_api.id
-  integration_type   = "HTTP_PROXY"
-  connection_type    = "INTERNET"
-  integration_method = "GET"
-  integration_uri    = "https://example.com"
-}
-
 resource "aws_apigatewayv2_integration" "login_int" {
   api_id                 = aws_apigatewayv2_api.store_api.id
   integration_type       = "AWS_PROXY"
@@ -37,19 +29,45 @@ resource "aws_apigatewayv2_integration" "login_int" {
   payload_format_version = "2.0"
 }
 
-resource "aws_apigatewayv2_route" "buy_route" {
-  api_id             = aws_apigatewayv2_api.store_api.id
-  route_key          = "GET /buy"
-  target             = "integrations/${aws_apigatewayv2_integration.buy_int.id}"
-  authorization_type = "JWT"
-  authorizer_id      = aws_apigatewayv2_authorizer.store_auth.id
+resource "aws_apigatewayv2_integration" "seats_int" {
+  api_id                 = aws_apigatewayv2_api.store_api.id
+  integration_type       = "AWS_PROXY"
+  connection_type        = "INTERNET"
+  integration_method     = "POST"
+  integration_uri        = aws_lambda_function.get_seats.invoke_arn
+  payload_format_version = "2.0"
 }
 
-resource "aws_apigatewayv2_route" "login_route" {
+resource "aws_apigatewayv2_integration" "purchase_int" {
+  api_id                 = aws_apigatewayv2_api.store_api.id
+  integration_type       = "AWS_PROXY"
+  connection_type        = "INTERNET"
+  integration_method     = "POST"
+  integration_uri        = aws_lambda_function.purchase_seats.invoke_arn
+  payload_format_version = "2.0"
+}
+
+resource "aws_apigatewayv2_route" "login" {
   api_id             = aws_apigatewayv2_api.store_api.id
   route_key          = "GET /login"
   target             = "integrations/${aws_apigatewayv2_integration.login_int.id}"
   authorization_type = "NONE"
+}
+
+resource "aws_apigatewayv2_route" "get_seats" {
+  api_id             = aws_apigatewayv2_api.store_api.id
+  route_key          = "GET /seats"
+  target             = "integrations/${aws_apigatewayv2_integration.seats_int.id}"
+  authorization_type = "JWT"
+  authorizer_id      = aws_apigatewayv2_authorizer.store_auth.id
+}
+
+resource "aws_apigatewayv2_route" "purchase_seats" {
+  api_id             = aws_apigatewayv2_api.store_api.id
+  route_key          = "POST /purchase"
+  target             = "integrations/${aws_apigatewayv2_integration.purchase_int.id}"
+  authorization_type = "JWT"
+  authorizer_id      = aws_apigatewayv2_authorizer.store_auth.id
 }
 
 resource "aws_apigatewayv2_stage" "dev_stage" {
@@ -67,10 +85,12 @@ resource "aws_apigatewayv2_deployment" "dev_deploy" {
   }
 
   depends_on = [
-    aws_apigatewayv2_integration.buy_int,
+    aws_apigatewayv2_integration.purchase_int,
     aws_apigatewayv2_integration.login_int,
-    aws_apigatewayv2_route.buy_route,
-    aws_apigatewayv2_route.login_route
+    aws_apigatewayv2_integration.seats_int,
+    aws_apigatewayv2_route.purchase_seats,
+    aws_apigatewayv2_route.login,
+    aws_apigatewayv2_route.get_seats
   ]
 }
 
@@ -151,6 +171,13 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     }
   }
 
+  custom_error_response {
+    error_code            = 403
+    response_code         = 200
+    response_page_path    = "/index.html"
+    error_caching_min_ttl = 0
+  }
+
   price_class = "PriceClass_200"
 
   restrictions {
@@ -173,7 +200,6 @@ resource "aws_cloudfront_function" "root_object" {
 function handler(event) {
     var request = event.request;
     var uri = request.uri;
-
     if (uri == '/') {
         request.uri += 'index.html';
     } 

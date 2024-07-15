@@ -5,7 +5,7 @@ import random
 
 total_sections = 3
 total_rows = 20
-total_seats_per_row = 30
+total_seats_per_row = 15
 
 def create_json_file():
     data = {}

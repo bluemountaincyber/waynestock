@@ -86,7 +86,7 @@ resource "aws_cognito_user_pool" "store_pool" {
   }
 }
 
-resource "aws_dynamodb_table" "store-seats" {
+resource "aws_dynamodb_table" "store_seats" {
     name           = "seats"
     billing_mode   = "PAY_PER_REQUEST"
     hash_key       = "section"
@@ -106,9 +106,9 @@ resource "aws_dynamodb_table" "store-seats" {
 
 resource "aws_dynamodb_table_item" "seats" {
     for_each = { for seat in local.seats.seatingChart : seat.seat_id => seat }
-    table_name = aws_dynamodb_table.store-seats.name
-    hash_key = aws_dynamodb_table.store-seats.hash_key
-    range_key = aws_dynamodb_table.store-seats.range_key
+    table_name = aws_dynamodb_table.store_seats.name
+    hash_key = aws_dynamodb_table.store_seats.hash_key
+    range_key = aws_dynamodb_table.store_seats.range_key
     item = <<EOF
 {
     "section": {"N": "${each.value.section}"},
@@ -173,4 +173,8 @@ resource "aws_s3_object" "store_static_files" {
   content_type     = lookup(local.content_types, element(split(".", each.value), length(split(".", each.value)) - 1), "text/plain")
   content_encoding = "utf-8"
   source_hash = filemd5("${path.module}/webcode/store/client/build/${each.value}")
+}
+
+resource "aws_s3_bucket" "store_transactions" {
+  bucket = "storetransactions${random_string.random.result}"
 }

@@ -1,0 +1,59 @@
+import boto3
+import datetime
+import json
+import random
+
+def lambda_handler(event, context):
+    message = ""
+    bucket = "${S3_BUCKET}"
+    post_data = json.loads(event['body'])
+
+    entry = {
+        "transaction_id": f"{datetime.datetime.now().strftime('%Y%m%d%H%M%S')}-{random.randint(1000, 9999)}",
+        "date": datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+        "full_name": post_data['fullName'],
+        "address": post_data['address'],
+        "email": post_data['email'],
+        "phone": post_data['phone'],
+        "credit_card": post_data['creditCard'],
+        "seats": post_data['seats']
+    }
+
+    # Upload transaction information to S3
+    try:
+        s3 = boto3.client('s3')
+        s3.put_object(Bucket=bucket, Key=f"transactions/{entry['transaction_id']}.json", Body=bytes(json.dumps(entry).encode('UTF-8')))
+    except:
+        message = "An S3 error occurred while processing your request"
+
+    # Update DynamoDB database
+    try:
+        for seat_id in entry['seats'].split(','):
+            dynamodb = boto3.resource('dynamodb')
+            table = dynamodb.Table('seats')
+            table.update_item(
+                Key={
+                    "seat_id": seat_id,
+                    "section": int(seat_id.split('-')[0])
+                },
+                UpdateExpression='SET #a = :s',
+                ExpressionAttributeNames={
+                    '#a': 'available'
+                },
+                ExpressionAttributeValues={
+                    ':s': False
+                }
+            )
+    except:
+        message = "A DynamoDB error occurred while processing your request"
+
+    if message == "":
+        message = "Tickets bought successfully"
+
+    return {
+        'statusCode': 200,
+        'body': json.dumps({
+            "message": message,
+            "event": entry
+        })
+    }
