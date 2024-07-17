@@ -162,3 +162,65 @@ resource "aws_s3_bucket_policy" "store_static" {
     ]
   })
 }
+
+data "aws_iam_policy_document" "volunteer_assume_role" {
+  statement {
+    effect = "Allow"
+
+    principals {
+      type        = "Service"
+      identifiers = ["ec2.amazonaws.com"]
+    }
+
+    actions = ["sts:AssumeRole"]
+  }
+}
+
+resource "aws_iam_policy" "volunteer" {
+  name        = "VolunteerPolicy"
+  description = "Policy for volunteer"
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "s3:ListBucket"
+        ]
+        Resource = "${aws_s3_bucket.volunteers.arn}"
+      
+      },
+      {
+        Effect = "Allow"
+        Action = [
+          "s3:GetObject"
+        ]
+        Resource = "${aws_s3_bucket.volunteers.arn}/*"
+      }
+    ]
+  })
+}
+
+data "aws_iam_policy" "ssm" {
+  arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+}
+
+resource "aws_iam_role" "volunteer" {
+  name               = "VolunteerRole"
+  assume_role_policy = data.aws_iam_policy_document.volunteer_assume_role.json
+}
+
+resource "aws_iam_role_policy_attachment" "volunteer" {
+  role       = aws_iam_role.volunteer.name
+  policy_arn = aws_iam_policy.volunteer.arn
+}
+
+resource "aws_iam_role_policy_attachment" "ssm" {
+  role       = aws_iam_role.volunteer.name
+  policy_arn = data.aws_iam_policy.ssm.arn
+}
+
+resource "aws_iam_instance_profile" "volunteer" {
+  name = "VolunteerInstanceProfile"
+  role = aws_iam_role.volunteer.name
+}

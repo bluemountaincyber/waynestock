@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# Change username to student
+usermod -l student -d /home/student -m ec2-user
+usermod -c "SEC488 student" student
+groupmod -n student ec2-user
+cat <<EOF > /etc/sudoers.d/student
+student ALL=(ALL) NOPASSWD:ALL
+EOF
+
+# Update packages
+yum update -y
+
+# Install, enable, and start Apache
+yum install httpd
+systemctl enable httpd
+systemctl start httpd
+
+# Install SSM agent
+sudo yum install -y https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm
+
+# Copy web code to web directory
+aws s3 cp --recursive s3://${S3_BUCKET}/* /var/www/html/

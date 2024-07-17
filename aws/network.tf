@@ -212,3 +212,49 @@ function handler(event) {
 }
 EOF
 }
+
+resource "aws_vpc" "volunteer_vpc" {
+  cidr_block = "10.4.88.0/24"
+}
+
+resource "aws_subnet" "volunteer_subnet" {
+  vpc_id = aws_vpc.volunteer_vpc.id
+  cidr_block = "10.4.88.0/25"
+  availability_zone = "${var.region}a"
+  map_public_ip_on_launch = true
+}
+
+resource "aws_internet_gateway" "volunteer_igw" {
+  vpc_id = aws_vpc.volunteer_vpc.id
+}
+
+resource "aws_route_table" "volunteer_rt" {
+  vpc_id = aws_vpc.volunteer_vpc.id
+}
+
+resource "aws_route" "volunteer_rt_internet" {
+  route_table_id = aws_route_table.volunteer_rt.id
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id = aws_internet_gateway.volunteer_igw.id
+}
+
+resource "aws_route_table_association" "volunteer_subnet_rt_association" {
+  subnet_id = aws_subnet.volunteer_subnet.id
+  route_table_id = aws_route_table.volunteer_rt.id
+}
+
+resource "aws_security_group" "volunteer_sg" {
+  vpc_id = aws_vpc.volunteer_vpc.id
+  egress {
+    from_port = 0
+    to_port = 0
+    protocol = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
+    from_port = 80
+    to_port = 80
+    protocol = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
