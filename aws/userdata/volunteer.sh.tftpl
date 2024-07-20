@@ -12,12 +12,20 @@ EOF
 yum update -y
 
 # Install, enable, and start Apache
-yum install httpd
+yum install httpd php -y
 systemctl enable httpd
 systemctl start httpd
+php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+php -r "if (hash_file('sha384', 'composer-setup.php') === 'dac665fdc30fdd8ec78b38b9800061b4150413ff2e3b6f88543c636f7cd84f6db9189d43a81e5503cda447da73c7e5b6') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+php composer-setup.php
+php -r "unlink('composer-setup.php');"
+mv composer.phar /usr/local/bin/composer
+cd /var/www/html/
+yes | composer require aws/aws-sdk-php
 
 # Install SSM agent
 sudo yum install -y https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm
 
 # Copy web code to web directory
-aws s3 cp --recursive s3://${S3_BUCKET}/* /var/www/html/
+aws s3 cp --recursive s3://${S3_BUCKET}/ /var/www/html/
+chown -R apache:apache /var/www/html/

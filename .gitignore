@@ -339,3 +339,6 @@ cython_debug/
 
 #### OTHERS ####
 **/.DS_Store
+**/vendor/**
+composer.json
+composer.lock

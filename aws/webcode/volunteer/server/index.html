@@ -1,0 +1,27 @@
+<html>
+
+<head>
+    <title>Volunteer Signup</title>
+</head>
+
+<body>
+    <h1>WayneStock Volunteer Signup</h1>
+    <form action="./submit.php" method="POST">
+        <label for="name">Full Name:</label>
+        <input type="text" id="name" name="name" required><br><br>
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email" required><br><br>
+        <label for="phone">Phone:</label>
+        <input type="tel" id="phone" name="phone" required><br><br>
+        <label for="preferred_shift">Preferred Shift</label>
+        <input type="radio" id="morning" name="preferred_shift" value="morning" required>
+        <label for="morning">Morning</label>
+        <input type="radio" id="afternoon" name="preferred_shift" value="afternoon" required>
+        <label for="afternoon">Afternoon</label>
+        <input type="radio" id="evening" name="preferred_shift" value="evening" required>
+        <label for="evening">Evening</label><br><br>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+
+</html>

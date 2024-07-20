@@ -74,14 +74,15 @@ resource "aws_instance" "volunteers" {
   ami                    = data.aws_ami.amazon_linux.id
   instance_type          = "t2.micro"
   vpc_security_group_ids = [aws_security_group.volunteer_sg.id]
-  subnet_id             = aws_subnet.volunteer_subnet.id
+  subnet_id              = aws_subnet.volunteer_subnet.id
   user_data = templatefile("${path.module}/userdata/volunteer.sh.tftpl", {
-    S3_BUCKET = aws_s3_bucket.volunteers_webcode.bucket
+    S3_BUCKET = aws_s3_bucket.volunteers_webcode.bucket,
+    REGION    = var.region
   })
   iam_instance_profile        = aws_iam_instance_profile.volunteer.name
   associate_public_ip_address = true
   metadata_options {
-    http_tokens = "optional"
+    http_tokens                 = "optional"
     http_put_response_hop_limit = 1
   }
   tags = {

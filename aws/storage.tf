@@ -162,7 +162,7 @@ resource "aws_cognito_user_pool_ui_customization" "login_ui_customization" {
 }
 
 resource "aws_s3_bucket" "store_static" {
-  bucket = "storestatic${random_string.random.result}"
+  bucket = "storestatic-${random_string.random.result}"
   force_destroy = true
 }
 
@@ -177,23 +177,23 @@ resource "aws_s3_object" "store_static_files" {
 }
 
 resource "aws_s3_bucket" "store_transactions" {
-  bucket = "storetransactions${random_string.random.result}"
+  bucket = "storetransactions-${random_string.random.result}"
   force_destroy = true
 }
 
 resource "aws_s3_bucket" "volunteers" {
-  bucket = "volunteers${random_string.random.result}"
+  bucket = "volunteers-${random_string.random.result}"
   force_destroy = true
 }
 
 resource "aws_s3_bucket" "volunteers_webcode" {
-  bucket = "volunteerswebcode${random_string.random.result}"
+  bucket = "volunteerswebcode-${random_string.random.result}"
   force_destroy = true
 }
 
 resource "aws_s3_object" "volunteers_static_files" {
   for_each         = fileset("${path.module}/webcode/volunteer/server", "**/*")
-  bucket           = aws_s3_bucket.store_static.bucket
+  bucket           = aws_s3_bucket.volunteers_webcode.bucket
   key              = each.value
   source           = "${path.module}/webcode/volunteer/server/${each.value}"
   content_type     = lookup(local.content_types, element(split(".", each.value), length(split(".", each.value)) - 1), "text/plain")

@@ -185,15 +185,22 @@ resource "aws_iam_policy" "volunteer" {
       {
         Effect = "Allow"
         Action = [
-          "s3:ListBucket"
+          "s3:List*"
         ]
-        Resource = "${aws_s3_bucket.volunteers.arn}"
+        Resource = "*"
       
       },
       {
         Effect = "Allow"
         Action = [
           "s3:GetObject"
+        ]
+        Resource = "${aws_s3_bucket.volunteers_webcode.arn}/*"
+      },
+      {
+        Effect = "Allow"
+        Action = [
+          "s3:PutObject"
         ]
         Resource = "${aws_s3_bucket.volunteers.arn}/*"
       }
