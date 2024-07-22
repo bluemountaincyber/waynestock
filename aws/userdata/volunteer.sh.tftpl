@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Varibles
+export HOME=/root
+
 # Change username to student
 usermod -l student -d /home/student -m ec2-user
 usermod -c "SEC488 student" student
@@ -15,13 +18,13 @@ yum update -y
 yum install httpd php -y
 systemctl enable httpd
 systemctl start httpd
-php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-php -r "if (hash_file('sha384', 'composer-setup.php') === 'dac665fdc30fdd8ec78b38b9800061b4150413ff2e3b6f88543c636f7cd84f6db9189d43a81e5503cda447da73c7e5b6') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
-php composer-setup.php
-php -r "unlink('composer-setup.php');"
+/usr/bin/php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+/usr/bin/php -r "if (hash_file('sha384', 'composer-setup.php') === 'dac665fdc30fdd8ec78b38b9800061b4150413ff2e3b6f88543c636f7cd84f6db9189d43a81e5503cda447da73c7e5b6') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+/usr/bin/php composer-setup.php
+/usr/bin/php -r "unlink('composer-setup.php');"
 mv composer.phar /usr/local/bin/composer
 cd /var/www/html/
-yes | composer require aws/aws-sdk-php
+yes | /usr/local/bin/composer require aws/aws-sdk-php
 
 # Install SSM agent
 sudo yum install -y https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm
@@ -29,3 +32,4 @@ sudo yum install -y https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/late
 # Copy web code to web directory
 aws s3 cp --recursive s3://${S3_BUCKET}/ /var/www/html/
 chown -R apache:apache /var/www/html/
+sed -i "s/REGION_PLACEHOLDER/${REGION}/g" /var/www/html/submit.php
