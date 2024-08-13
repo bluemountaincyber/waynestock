@@ -7,5 +7,5 @@ variable "region" {
 variable "vm_size" {
     description = "The size of the virtual machines in the scale set."
     type        = string
-    default     = "Standard_B1s"
+    default     = "Standard_F2"
 }
