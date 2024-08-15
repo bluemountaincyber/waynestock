@@ -73,7 +73,7 @@ resource "aws_cognito_user_pool" "store_pool" {
     developer_only_attribute = false
     mutable                  = false
     name                     = "email"
-    required                 = false
+    required                 = true
   }
 
   password_policy {

@@ -5,3 +5,7 @@ output "store_url" {
 output "volunteers_url" {
   value = "http://${aws_instance.volunteers.public_ip}"
 }
+
+output "user_pool_domain" {
+  value = aws_cognito_user_pool_domain.main_domain.domain
+}

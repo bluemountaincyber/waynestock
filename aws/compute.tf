@@ -3,7 +3,7 @@ data "archive_file" "redirect_login" {
   output_path = "${path.module}/webcode/store/redirect_login.zip"
   source {
     content = templatefile("${path.module}/webcode/store/redirect-login/lambda_function.py.tftpl", {
-      LOGIN_URL = "https://${aws_cognito_user_pool.store_pool.domain}.auth.${var.region}.amazoncognito.com/oauth2/authorize?client_id=${aws_cognito_user_pool_client.store_upc.id}&response_type=token&scope=email+openid&redirect_uri=${urlencode("https://${aws_cloudfront_distribution.s3_distribution.domain_name}")}"
+      LOGIN_URL = "https://${aws_cognito_user_pool_domain.main_domain.domain}.auth.${var.region}.amazoncognito.com/oauth2/authorize?client_id=${aws_cognito_user_pool_client.store_upc.id}&response_type=token&scope=email+openid&redirect_uri=${urlencode("https://${aws_cloudfront_distribution.s3_distribution.domain_name}")}"
     })
     filename = "lambda_function.py"
   }
