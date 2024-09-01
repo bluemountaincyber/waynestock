@@ -134,11 +134,11 @@ resource "azurerm_cdn_frontdoor_origin" "fdo" {
 
   certificate_name_check_enabled = false
 
-  host_name          = azurerm_public_ip.homepage-pip.ip_address
-  http_port          = 80
-  https_port         = 443
-  priority           = 1
-  weight             = 1
+  host_name  = azurerm_public_ip.homepage-pip.ip_address
+  http_port  = 80
+  https_port = 443
+  priority   = 1
+  weight     = 1
 }
 
 resource "azurerm_cdn_frontdoor_route" "fdr" {
@@ -154,7 +154,7 @@ resource "azurerm_cdn_frontdoor_route" "fdr" {
   patterns_to_match      = ["/*"]
   supported_protocols    = ["Https"]
 
-  link_to_default_domain          = true
+  link_to_default_domain = true
 }
 
 resource "azurerm_mysql_flexible_server_firewall_rule" "talentdb-fwr" {

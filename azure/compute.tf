@@ -88,12 +88,12 @@ resource "azurerm_linux_web_app" "talentwa" {
   service_plan_id     = azurerm_service_plan.talentasp.id
   https_only          = true
   app_settings = {
-    "DB_HOST"     = azurerm_mysql_flexible_server.talentdb-server.fqdn
-    "DB_NAME"     = azurerm_mysql_flexible_database.talentdb-db.name
-    "DB_USER"     = azurerm_mysql_flexible_server.talentdb-server.administrator_login
-    "DB_PASS"     = azurerm_mysql_flexible_server.talentdb-server.administrator_password
-    "SA_URL"      = azurerm_storage_account.talent-sa.primary_blob_endpoint
-    "PORT"        = "8888"
+    "DB_HOST" = azurerm_mysql_flexible_server.talentdb-server.fqdn
+    "DB_NAME" = azurerm_mysql_flexible_database.talentdb-db.name
+    "DB_USER" = azurerm_mysql_flexible_server.talentdb-server.administrator_login
+    "DB_PASS" = azurerm_mysql_flexible_server.talentdb-server.administrator_password
+    "SA_URL"  = azurerm_storage_account.talent-sa.primary_blob_endpoint
+    "PORT"    = "8888"
   }
   site_config {
     minimum_tls_version = "1.2"

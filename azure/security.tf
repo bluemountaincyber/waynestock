@@ -11,11 +11,11 @@ resource "azurerm_security_center_subscription_pricing" "mdc-servers" {
   subplan       = "P2"
 }
 
-resource "azurerm_log_analytics_workspace" "la-workspace" { 
-  name = "wslaw" 
-  location = azurerm_resource_group.security-rg.location
-  resource_group_name = azurerm_resource_group.security-rg.name 
-  sku = "PerGB2018" 
+resource "azurerm_log_analytics_workspace" "la-workspace" {
+  name                = "wslaw"
+  location            = azurerm_resource_group.security-rg.location
+  resource_group_name = azurerm_resource_group.security-rg.name
+  sku                 = "PerGB2018"
 }
 
 resource "azurerm_security_center_workspace" "la-workspace" {
@@ -26,4 +26,20 @@ resource "azurerm_security_center_workspace" "la-workspace" {
 resource "azurerm_sentinel_log_analytics_workspace_onboarding" "la-onboarding" {
   workspace_id                 = azurerm_log_analytics_workspace.la-workspace.id
   customer_managed_key_enabled = false
+}
+
+resource "azuread_application" "waynestock-prod" {
+  display_name = "waynestock-prod"
+}
+
+resource "azuread_service_principal" "waynestock-prod-sp" {
+  client_id = azuread_application.waynestock-prod.client_id
+}
+
+resource "azuread_group" "waynestock-prod-admins" {
+  display_name = "WayneStock Prod Admins"
+  security_enabled = true
+  members = [
+    azuread_service_principal.waynestock-prod-sp.object_id
+  ]
 }
