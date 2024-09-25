@@ -28,7 +28,7 @@ resource "azurerm_storage_blob" "homepage-files" {
   type                   = "Block"
   source                 = "${path.root}/webcode/homepage/server/${each.key}"
   content_md5            = filemd5("${path.root}/webcode/homepage/server/${each.key}")
-  depends_on = [ azurerm_security_center_subscription_pricing.mdc-storage ]
+  depends_on             = [azurerm_security_center_subscription_pricing.mdc-storage]
 }
 
 data "azurerm_storage_account_sas" "token" {

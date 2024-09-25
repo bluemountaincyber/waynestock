@@ -185,6 +185,38 @@ resource "aws_s3_bucket" "store_transactions" {
   force_destroy = true
 }
 
+resource "aws_s3_account_public_access_block" "store_transactions" {
+  account_id = data.aws_caller_identity.current.account_id
+  block_public_acls       = false
+  block_public_policy     = false
+  ignore_public_acls      = false
+  restrict_public_buckets = false
+}
+
+resource "aws_s3_bucket_public_access_block" "store_transactions" {
+  bucket                  = aws_s3_bucket.store_transactions.id
+  block_public_acls       = false
+  block_public_policy     = false
+  ignore_public_acls      = false
+  restrict_public_buckets = false
+  depends_on = [ aws_s3_account_public_access_block.store_transactions ]
+}
+
+resource "aws_s3_bucket_policy" "store_transactions" {
+  bucket = aws_s3_bucket.store_transactions.id
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect    = "Allow"
+        Principal = "*"
+        Action    = "s3:GetObject"
+        Resource  = "${aws_s3_bucket.store_transactions.arn}/*"
+      }
+    ]
+  })
+}
+
 resource "aws_s3_object" "store_transactions_files" {
   for_each         = fileset("${path.module}/webcode/transactions", "**/*")
   bucket           = aws_s3_bucket.store_transactions.bucket
