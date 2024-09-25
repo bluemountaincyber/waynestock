@@ -12,3 +12,8 @@ resource "aws_cloudwatch_log_group" "purchase_seats" {
   name              = "/aws/lambda/store_purchase_seats"
   retention_in_days = 7
 }
+
+resource "aws_macie2_account" "macie" {
+  finding_publishing_frequency = "FIFTEEN_MINUTES"
+  status = "ENABLED"
+}

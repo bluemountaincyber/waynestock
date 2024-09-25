@@ -185,6 +185,16 @@ resource "aws_s3_bucket" "store_transactions" {
   force_destroy = true
 }
 
+resource "aws_s3_object" "store_transactions_files" {
+  for_each         = fileset("${path.module}/webcode/transactions", "**/*")
+  bucket           = aws_s3_bucket.store_transactions.bucket
+  key              = "transactions/${each.value}"
+  source           = "${path.module}/webcode/transactions/${each.value}"
+  content_type     = lookup(local.content_types, element(split(".", each.value), length(split(".", each.value)) - 1), "text/plain")
+  content_encoding = "utf-8"
+  source_hash = filemd5("${path.module}/webcode/transactions/${each.value}")
+}
+
 resource "aws_s3_bucket" "volunteers" {
   bucket = "volunteers-${random_string.random.result}"
   force_destroy = true

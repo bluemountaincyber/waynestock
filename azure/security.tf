@@ -11,6 +11,11 @@ resource "azurerm_security_center_subscription_pricing" "mdc-servers" {
   subplan       = "P2"
 }
 
+resource "azurerm_security_center_subscription_pricing" "mdc-storage" {
+  tier          = "Standard"
+  resource_type = "StorageAccounts"
+}
+
 resource "azurerm_log_analytics_workspace" "la-workspace" {
   name                = "wslaw"
   location            = azurerm_resource_group.security-rg.location
