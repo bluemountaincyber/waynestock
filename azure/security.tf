@@ -14,6 +14,11 @@ resource "azurerm_security_center_subscription_pricing" "mdc-servers" {
 resource "azurerm_security_center_subscription_pricing" "mdc-storage" {
   tier          = "Standard"
   resource_type = "StorageAccounts"
+  subplan       = "DefenderForStorageV2"
+
+  extension {
+    name = "SensitiveDataDiscovery"
+  }
 }
 
 resource "azurerm_log_analytics_workspace" "la-workspace" {
@@ -42,7 +47,7 @@ resource "azuread_service_principal" "waynestock-prod-sp" {
 }
 
 resource "azuread_group" "waynestock-prod-admins" {
-  display_name = "WayneStock Prod Admins"
+  display_name     = "WayneStock Prod Admins"
   security_enabled = true
   members = [
     azuread_service_principal.waynestock-prod-sp.object_id

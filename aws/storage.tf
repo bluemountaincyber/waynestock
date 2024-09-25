@@ -1,6 +1,6 @@
 locals {
   user_info = jsondecode(file("${path.module}/users.json"))
-  seats = jsondecode(file("${path.module}/seats.json"))
+  seats     = jsondecode(file("${path.module}/seats.json"))
   content_types = {
     css  = "text/css"
     html = "text/html"
@@ -91,29 +91,29 @@ resource "aws_cognito_user_pool" "store_pool" {
 }
 
 resource "aws_dynamodb_table" "store_seats" {
-    name           = "seats"
-    billing_mode   = "PAY_PER_REQUEST"
-    hash_key       = "section"
-    range_key      = "seat_id"
-    stream_enabled = true
-    stream_view_type = "NEW_AND_OLD_IMAGES"
+  name             = "seats"
+  billing_mode     = "PAY_PER_REQUEST"
+  hash_key         = "section"
+  range_key        = "seat_id"
+  stream_enabled   = true
+  stream_view_type = "NEW_AND_OLD_IMAGES"
 
-    attribute {
-        name = "seat_id"
-        type = "S"
-    }
-    attribute {
-        name = "section"
-        type = "N"
-    }
+  attribute {
+    name = "seat_id"
+    type = "S"
+  }
+  attribute {
+    name = "section"
+    type = "N"
+  }
 }
 
 resource "aws_dynamodb_table_item" "seats" {
-    for_each = { for seat in local.seats.seatingChart : seat.seat_id => seat }
-    table_name = aws_dynamodb_table.store_seats.name
-    hash_key = aws_dynamodb_table.store_seats.hash_key
-    range_key = aws_dynamodb_table.store_seats.range_key
-    item = <<EOF
+  for_each   = { for seat in local.seats.seatingChart : seat.seat_id => seat }
+  table_name = aws_dynamodb_table.store_seats.name
+  hash_key   = aws_dynamodb_table.store_seats.hash_key
+  range_key  = aws_dynamodb_table.store_seats.range_key
+  item       = <<EOF
 {
     "section": {"N": "${each.value.section}"},
     "row": {"N": "${each.value.row}"},
@@ -166,7 +166,7 @@ resource "aws_cognito_user_pool_ui_customization" "login_ui_customization" {
 }
 
 resource "aws_s3_bucket" "store_static" {
-  bucket = "storestatic-${random_string.random.result}"
+  bucket        = "storestatic-${random_string.random.result}"
   force_destroy = true
 }
 
@@ -177,11 +177,11 @@ resource "aws_s3_object" "store_static_files" {
   source           = "${path.module}/webcode/store/client/build/${each.value}"
   content_type     = lookup(local.content_types, element(split(".", each.value), length(split(".", each.value)) - 1), "text/plain")
   content_encoding = "utf-8"
-  source_hash = filemd5("${path.module}/webcode/store/client/build/${each.value}")
+  source_hash      = filemd5("${path.module}/webcode/store/client/build/${each.value}")
 }
 
 resource "aws_s3_bucket" "store_transactions" {
-  bucket = "storetransactions-${random_string.random.result}"
+  bucket        = "storetransactions-${random_string.random.result}"
   force_destroy = true
 }
 
@@ -192,16 +192,17 @@ resource "aws_s3_object" "store_transactions_files" {
   source           = "${path.module}/webcode/transactions/${each.value}"
   content_type     = lookup(local.content_types, element(split(".", each.value), length(split(".", each.value)) - 1), "text/plain")
   content_encoding = "utf-8"
-  source_hash = filemd5("${path.module}/webcode/transactions/${each.value}")
+  source_hash      = filemd5("${path.module}/webcode/transactions/${each.value}")
+  depends_on       = [aws_macie2_account.macie]
 }
 
 resource "aws_s3_bucket" "volunteers" {
-  bucket = "volunteers-${random_string.random.result}"
+  bucket        = "volunteers-${random_string.random.result}"
   force_destroy = true
 }
 
 resource "aws_s3_bucket" "volunteers_webcode" {
-  bucket = "volunteerswebcode-${random_string.random.result}"
+  bucket        = "volunteerswebcode-${random_string.random.result}"
   force_destroy = true
 }
 
@@ -212,5 +213,5 @@ resource "aws_s3_object" "volunteers_static_files" {
   source           = "${path.module}/webcode/volunteer/server/${each.value}"
   content_type     = lookup(local.content_types, element(split(".", each.value), length(split(".", each.value)) - 1), "text/plain")
   content_encoding = "utf-8"
-  source_hash = filemd5("${path.module}/webcode/volunteer/server/${each.value}")
+  source_hash      = filemd5("${path.module}/webcode/volunteer/server/${each.value}")
 }
