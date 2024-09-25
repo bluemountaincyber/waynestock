@@ -78,12 +78,16 @@ resource "aws_cognito_user_pool" "store_pool" {
 
   password_policy {
     minimum_length                   = 8
-    require_lowercase                = true
-    require_numbers                  = true
-    require_symbols                  = true
-    require_uppercase                = true
+    require_lowercase                = false
+    require_numbers                  = false
+    require_symbols                  = false
+    require_uppercase                = false
     temporary_password_validity_days = 7
   }
+
+  auto_verified_attributes = [
+    "email"
+  ]
 }
 
 resource "aws_dynamodb_table" "store_seats" {
