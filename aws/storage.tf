@@ -202,19 +202,20 @@ resource "aws_s3_bucket_public_access_block" "store_transactions" {
   depends_on = [ aws_s3_account_public_access_block.store_transactions ]
 }
 
+data "aws_iam_policy_document" "store_transactions" {
+  statement {
+    actions   = ["s3:GetObject"]
+    resources = ["${aws_s3_bucket.store_transactions.arn}/*"]
+    principals {
+      type        = "AWS"
+      identifiers = ["*"]
+    }
+  }
+}
+
 resource "aws_s3_bucket_policy" "store_transactions" {
   bucket = aws_s3_bucket.store_transactions.id
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect    = "Allow"
-        Principal = "*"
-        Action    = "s3:GetObject"
-        Resource  = "${aws_s3_bucket.store_transactions.arn}/*"
-      }
-    ]
-  })
+  policy = data.aws_iam_policy_document.store_transactions.json
 }
 
 resource "aws_s3_object" "store_transactions_files" {
