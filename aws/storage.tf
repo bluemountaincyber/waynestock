@@ -212,7 +212,7 @@ data "aws_iam_policy_document" "store_transactions" {
     }
   }
   statement {
-    actions = ["s3:ListBucket"]
+    actions = ["s3:List*"]
     resources = [aws_s3_bucket.store_transactions.arn]
     principals {
       type        = "AWS"
