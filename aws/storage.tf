@@ -211,6 +211,14 @@ data "aws_iam_policy_document" "store_transactions" {
       identifiers = ["*"]
     }
   }
+  statement {
+    actions = ["s3:ListBucket"]
+    resources = [aws_s3_bucket.store_transactions.arn]
+    principals {
+      type        = "AWS"
+      identifiers = ["*"]
+    }
+  }
 }
 
 resource "aws_s3_bucket_policy" "store_transactions" {
