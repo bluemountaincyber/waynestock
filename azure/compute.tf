@@ -57,6 +57,7 @@ resource "azurerm_mysql_flexible_server" "talentdb-server" {
   administrator_password = random_string.password.result
   sku_name               = "GP_Standard_D2ds_v4"
   zone                   = 1
+  backup_retention_days  = 1
 }
 
 resource "azurerm_mysql_flexible_database" "talentdb-db" {
