@@ -186,7 +186,7 @@ resource "aws_s3_bucket" "store_transactions" {
 }
 
 resource "aws_s3_account_public_access_block" "store_transactions" {
-  account_id = data.aws_caller_identity.current.account_id
+  account_id              = data.aws_caller_identity.current.account_id
   block_public_acls       = false
   block_public_policy     = false
   ignore_public_acls      = false
@@ -199,7 +199,7 @@ resource "aws_s3_bucket_public_access_block" "store_transactions" {
   block_public_policy     = false
   ignore_public_acls      = false
   restrict_public_buckets = false
-  depends_on = [ aws_s3_account_public_access_block.store_transactions ]
+  depends_on              = [aws_s3_account_public_access_block.store_transactions]
 }
 
 data "aws_iam_policy_document" "store_transactions" {
@@ -212,7 +212,7 @@ data "aws_iam_policy_document" "store_transactions" {
     }
   }
   statement {
-    actions = ["s3:List*"]
+    actions   = ["s3:List*"]
     resources = [aws_s3_bucket.store_transactions.arn]
     principals {
       type        = "AWS"

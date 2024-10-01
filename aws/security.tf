@@ -15,7 +15,7 @@ resource "aws_cloudwatch_log_group" "purchase_seats" {
 
 resource "aws_macie2_account" "macie" {
   finding_publishing_frequency = "FIFTEEN_MINUTES"
-  status = "ENABLED"
+  status                       = "ENABLED"
 }
 
 resource "aws_accessanalyzer_analyzer" "analyzer" {

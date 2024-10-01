@@ -188,7 +188,7 @@ resource "aws_iam_policy" "volunteer" {
           "s3:List*"
         ]
         Resource = "*"
-      
+
       },
       {
         Effect = "Allow"
