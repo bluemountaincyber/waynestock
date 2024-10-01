@@ -27,6 +27,9 @@ resource "azurerm_orchestrated_virtual_machine_scale_set" "homepage" {
       load_balancer_backend_address_pool_ids = [
         azurerm_lb_backend_address_pool.homepage-bap.id
       ]
+      public_ip_address {
+        name = "homepage-public"
+      }
     }
   }
   os_profile {
