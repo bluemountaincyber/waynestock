@@ -72,7 +72,7 @@ data "aws_ami" "amazon_linux" {
 }
 resource "aws_instance" "volunteers" {
   ami                    = data.aws_ami.amazon_linux.id
-  instance_type          = "t2.micro"
+  instance_type          = "t3.micro"
   vpc_security_group_ids = [aws_security_group.volunteer_sg.id]
   subnet_id              = aws_subnet.volunteer_subnet.id
   user_data = templatefile("${path.module}/userdata/volunteer.sh.tftpl", {

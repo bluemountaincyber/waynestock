@@ -189,6 +189,58 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   viewer_certificate {
     cloudfront_default_certificate = true
   }
+
+  comment = "Store distribution"
+}
+
+resource "aws_cloudfront_distribution" "ec2_distribution" {
+  origin {
+    domain_name = aws_instance.volunteers.public_dns
+    origin_id   = aws_instance.volunteers.public_dns
+    custom_origin_config {
+      http_port              = 80
+      https_port             = 443
+      origin_protocol_policy = "http-only"
+      origin_ssl_protocols   = ["TLSv1.2"]
+    }
+  }
+
+  enabled             = true
+  is_ipv6_enabled     = true
+  default_root_object = "index.html"
+
+  default_cache_behavior {
+    allowed_methods  = ["HEAD", "DELETE", "POST", "GET", "OPTIONS", "PUT", "PATCH"]
+    cached_methods   = ["GET", "HEAD"]
+    target_origin_id = aws_instance.volunteers.public_dns
+    compress         = false
+
+    forwarded_values {
+      query_string = true
+      cookies {
+        forward = "none"
+      }
+    }
+
+    viewer_protocol_policy = "allow-all"
+    min_ttl                = 0
+    default_ttl            = 0
+    max_ttl                = 0
+  }
+
+  price_class = "PriceClass_200"
+
+  restrictions {
+    geo_restriction {
+      restriction_type = "none"
+    }
+  }
+
+  viewer_certificate {
+    cloudfront_default_certificate = true
+  }
+
+  comment = "Volunteers distribution"
 }
 
 resource "aws_cloudfront_function" "root_object" {
@@ -214,14 +266,15 @@ EOF
 }
 
 resource "aws_vpc" "volunteer_vpc" {
-  cidr_block = "10.4.88.0/24"
+  cidr_block                       = "10.4.88.0/24"
+  enable_dns_hostnames             = true
 }
 
 resource "aws_subnet" "volunteer_subnet" {
-  vpc_id                  = aws_vpc.volunteer_vpc.id
-  cidr_block              = "10.4.88.0/25"
-  availability_zone       = "${var.region}a"
-  map_public_ip_on_launch = true
+  vpc_id                          = aws_vpc.volunteer_vpc.id
+  cidr_block                      = "10.4.88.0/25"
+  availability_zone               = "${var.region}a"
+  map_public_ip_on_launch         = true
 }
 
 resource "aws_internet_gateway" "volunteer_igw" {
@@ -238,7 +291,7 @@ resource "aws_route" "volunteer_rt_internet" {
   gateway_id             = aws_internet_gateway.volunteer_igw.id
 }
 
-resource "aws_route_table_association" "volunteer_subnet_rt_association" {
+resource "aws_route_table_association" "volunteer_subnet_rt_association_a" {
   subnet_id      = aws_subnet.volunteer_subnet.id
   route_table_id = aws_route_table.volunteer_rt.id
 }
@@ -251,6 +304,12 @@ resource "aws_security_group" "volunteer_sg" {
     to_port     = 0
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
+  }
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    ipv6_cidr_blocks = ["::/0"]
   }
   ingress {
     from_port   = 22

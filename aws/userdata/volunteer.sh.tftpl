@@ -15,7 +15,7 @@ EOF
 yum update -y
 
 # Install, enable, and start Apache
-yum install httpd php -y
+yum install httpd php git zip -y
 systemctl enable httpd
 systemctl start httpd
 /usr/bin/php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"

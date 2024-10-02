@@ -3,7 +3,7 @@
 require 'vendor/autoload.php';
 use Aws\S3\S3Client;
 
-ini_set('display_errors', 'On');
+// Replaces /var/www/submit.php.bak
 
 // Create client
 $s3Client = new S3Client([
