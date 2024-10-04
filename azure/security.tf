@@ -53,3 +53,38 @@ resource "azuread_group" "waynestock-prod-admins" {
     azuread_service_principal.waynestock-prod-sp.object_id
   ]
 }
+
+resource "azurerm_monitor_data_collection_endpoint" "monitor-endpoint" {
+  name                = "waynestock-logs"
+  location            = azurerm_resource_group.security-rg.location
+  resource_group_name = azurerm_resource_group.security-rg.name
+}
+
+resource "azapi_resource" "data_collection_logs_table" {
+  name      = "Apache2_CL"
+  parent_id = azurerm_log_analytics_workspace.la-workspace.id
+  type      = "Microsoft.OperationalInsights/workspaces/tables@2022-10-01"
+  body = jsonencode(
+    {
+      "properties" : {
+        "schema" : {
+          "name" : "Apache2_CL",
+          "columns" : [
+            {
+              "name" : "TimeGenerated",
+              "type" : "datetime",
+              "description" : "The time at which the data was generated"
+            },
+            {
+              "name" : "RawData",
+              "type" : "string",
+              "description" : "Raw log data"
+            }
+          ]
+        },
+        "retentionInDays" : 30,
+        "totalRetentionInDays" : 30
+      }
+    }
+  )
+}
