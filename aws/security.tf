@@ -18,11 +18,12 @@ resource "aws_cloudwatch_log_group" "waynestock-apigw" {
   retention_in_days = 7
 }
 
-resource "aws_macie2_account" "macie" {
-  finding_publishing_frequency = "FIFTEEN_MINUTES"
-  status                       = "ENABLED"
+resource "aws_cloudwatch_log_group" "volunteers-syslog" {
+  name              = "/volunteers/audit"
+  retention_in_days = 7
 }
 
-resource "aws_accessanalyzer_analyzer" "analyzer" {
-  analyzer_name = "waynestock-analyzer"
+resource "aws_cloudwatch_log_group" "volunteers-httpd" {
+  name              = "/volunteers/httpd-access"
+  retention_in_days = 7
 }

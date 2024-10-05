@@ -212,6 +212,10 @@ data "aws_iam_policy" "ssm" {
   arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
 }
 
+data "aws_iam_policy" "cloudwatch" {
+  arn = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
+}
+
 resource "aws_iam_role" "volunteer" {
   name               = "VolunteerRole"
   assume_role_policy = data.aws_iam_policy_document.volunteer_assume_role.json
@@ -225,6 +229,11 @@ resource "aws_iam_role_policy_attachment" "volunteer" {
 resource "aws_iam_role_policy_attachment" "ssm" {
   role       = aws_iam_role.volunteer.name
   policy_arn = data.aws_iam_policy.ssm.arn
+}
+
+resource "aws_iam_role_policy_attachment" "cloudwatch" {
+  role       = aws_iam_role.volunteer.name
+  policy_arn = data.aws_iam_policy.cloudwatch.arn
 }
 
 resource "aws_iam_instance_profile" "volunteer" {

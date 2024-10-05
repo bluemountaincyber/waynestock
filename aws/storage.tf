@@ -234,7 +234,6 @@ resource "aws_s3_object" "store_transactions_files" {
   content_type     = lookup(local.content_types, element(split(".", each.value), length(split(".", each.value)) - 1), "text/plain")
   content_encoding = "utf-8"
   source_hash      = filemd5("${path.module}/webcode/transactions/${each.value}")
-  depends_on       = [aws_macie2_account.macie]
 }
 
 resource "aws_s3_bucket" "volunteers" {
