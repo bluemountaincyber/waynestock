@@ -240,3 +240,49 @@ resource "aws_iam_instance_profile" "volunteer" {
   name = "VolunteerInstanceProfile"
   role = aws_iam_role.volunteer.name
 }
+
+resource "aws_iam_role" "ssm_role" {
+  name = "AutomateSSMRole"
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Principal = {
+          Service = "ssm.amazonaws.com"
+        },
+        Action = "sts:AssumeRole"
+      }
+    ]
+  })
+}
+
+data "aws_iam_policy" "ssm_automation" {
+  arn = "arn:aws:iam::aws:policy/service-role/AmazonSSMAutomationRole"
+}
+
+resource "aws_iam_policy" "update_metadata_options" {
+  name = "UpdateMetadataOptions"
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Action = [
+          "ec2:ModifyInstanceMetadataOptions"
+        ],
+        Resource = "*"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "ssm_ec2" {
+  role       = aws_iam_role.ssm_role.name
+  policy_arn = data.aws_iam_policy.ssm_automation.arn
+}
+
+resource "aws_iam_role_policy_attachment" "ssm_metadata" {
+  role       = aws_iam_role.ssm_role.name
+  policy_arn = aws_iam_policy.update_metadata_options.arn
+}
