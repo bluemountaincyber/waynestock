@@ -255,3 +255,8 @@ resource "aws_s3_object" "volunteers_static_files" {
   content_encoding = "utf-8"
   source_hash      = filemd5("${path.module}/webcode/volunteer/server/${each.value}")
 }
+
+resource "aws_s3_bucket" "config" {
+  bucket        = "config-${random_string.random.result}"
+  force_destroy = true
+}
