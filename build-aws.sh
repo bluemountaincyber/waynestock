@@ -67,7 +67,7 @@ fi
 
 echo -n "Initializing Terraform... "
 pushd /home/cloudshell-user/waynestock/aws &> /dev/null
-/home/cloudshell-user/terraform init -var "backend_bucket=${BACKEND_BUCKET}" &> /dev/null
+/home/cloudshell-user/terraform init -backend-config="bucket=${BACKEND_BUCKET}" -backend-config="key=terraform.tfstate" -backend-config="region=${AWS_REGION}" &> /dev/null
 if [ $? -eq 0 ]; then
     echo "${SUCCESS}"
 else
@@ -79,7 +79,7 @@ popd &> /dev/null
 
 echo -n "Applying Terraform configuration (this will take a while)... "
 pushd /home/cloudshell-user/waynestock/aws &> /dev/null
-/home/cloudshell-user/terraform apply -var "backend_bucket=${BACKEND_BUCKET}" -auto-approve &> /dev/null
+/home/cloudshell-user/terraform apply -auto-approve &> /dev/null
 if [ $? -eq 0 ]; then
     echo "${SUCCESS}"
 else

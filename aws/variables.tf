@@ -9,14 +9,3 @@ variable "stage" {
   type        = string
   default     = "api"
 }
-
-variable "backend_bucket" {
-  description = "The S3 bucket to store the Terraform state file."
-  type        = string
-}
-
-variable "backend_key" {
-  description = "The key (path) within the S3 bucket to store the Terraform state file."
-  type        = string
-  default    = "terraform.tfstate"
-}
