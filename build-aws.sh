@@ -15,10 +15,10 @@ fi
 echo -e "${SUCCESS}"
 
 echo -n "[ ] Calculating available disk space... "
-AVAILABLE_DISK_SPACE=$(df /home/cloudshell-user | tail -1 | awk '{print $4}')
-if [ "$AVAILABLE_DISK_SPACE" -lt 512000 ]; then
+AVAILABLE_DISK_SPACE=$(df / | tail -1 | awk '{print $4}')
+if [ "$AVAILABLE_DISK_SPACE" -lt 1048576 ]; then
     echo -e "${FAILURE}"
-    echo -e "${RED}Available disk space is less than 500MB. Please free up some space and try again.${NC}"
+    echo -e "${RED}Available disk space is less than 1GB. Please free up some space and try again.${NC}"
     exit 1
 fi
 echo -e "${SUCCESS}"
