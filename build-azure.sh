@@ -71,7 +71,7 @@ else
 fi
 
 echo -n "Initializing Terraform... "
-pushd /home/${USER}/waynestock/aws &> /dev/null
+pushd /home/${USER}/waynestock/azure &> /dev/null
 /home/${USER}/terraform init -upgrade -backend-config="bucket=${BACKEND_BUCKET}" -backend-config="key=terraform.tfstate" -backend-config="region=${AWS_REGION}" &> /dev/null
 if [ $? -eq 0 ]; then
     echo "${SUCCESS}"
@@ -83,7 +83,7 @@ fi
 popd &> /dev/null
 
 echo -n "Applying Terraform configuration (this will take a while)... "
-pushd /home/${USER}/waynestock/aws &> /dev/null
+pushd /home/${USER}/waynestock/azure &> /dev/null
 /home/${USER}/terraform apply -auto-approve &> /dev/null
 if [ $? -eq 0 ]; then
     echo "${SUCCESS}"
