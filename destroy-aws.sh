@@ -7,10 +7,12 @@ RED='\033[0;31m'
 NC='\033[0m'
 
 # Banner
+echo -e '\033[1m\033[31m'
 echo '▖  ▖          ▗     ▌   ▄▖▄▖▄▖'
 echo '▌▞▖▌▀▌▌▌▛▌█▌▛▘▜▘▛▌▛▘▙▘  ▐ ▌▌▌ '
 echo '▛ ▝▌█▌▙▌▌▌▙▖▄▌▐▖▙▌▙▖▛▖  ▟▖▛▌▙▖'
 echo '      ▄▌                      '
+echo -e '\033[0m'
 
 # Prompt user if they want to proceed
 echo -ne "\033[1m\033[4m\033[31mWARNING:\033[0m\033[1m\033[31m This will destroy all infrastructure deployed by this project in AWS. Do you want to proceed? (y/n) \033[0m"
