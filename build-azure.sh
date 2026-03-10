@@ -72,7 +72,7 @@ fi
 
 echo -n "Initializing Terraform... "
 pushd /home/${USER}/waynestock/azure &> /dev/null
-/home/${USER}/terraform init -upgrade -backend-config="bucket=${BACKEND_BUCKET}" -backend-config="key=terraform.tfstate" -backend-config="region=${AWS_REGION}" &> /dev/null
+/home/${USER}/terraform init -upgrade -backend-config="resource_group_name=${RG}" -backend-config="storage_account_name=${BACKEND_STORAGE_ACCOUNT}" -backend-config="container_name=${BACKEND_CONTAINER}" -backend-config="key=terraform.tfstate" &> /dev/null
 if [ $? -eq 0 ]; then
     echo "${SUCCESS}"
 else
