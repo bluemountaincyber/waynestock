@@ -67,7 +67,7 @@ fi
 
 echo -n "Initializing Terraform... "
 pushd /home/cloudshell-user/waynestock/aws &> /dev/null
-/home/cloudshell-user/terraform init -backend-config="bucket=${BACKEND_BUCKET}" -backend-config="key=terraform.tfstate" -backend-config="region=${AWS_REGION}" &> /dev/null
+/home/cloudshell-user/terraform init -upgrade -backend-config="bucket=${BACKEND_BUCKET}" -backend-config="key=terraform.tfstate" -backend-config="region=${AWS_REGION}" &> /dev/null
 if [ $? -eq 0 ]; then
     echo "${SUCCESS}"
 else
