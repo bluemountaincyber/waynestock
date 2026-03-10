@@ -12,16 +12,17 @@ This repository contains Terraform code to deploy and manage the AWS infrastruct
 
 ### Deployment Steps
 
-1. Clone the repository to your AWS CloudShell instance:
+1. Clone the repository to your AWS CloudShell instance into `/opt/waynestock` and change ownership to your user:
 
     ```bash
-    git clone https://github.com/bluemountaincyber/waynestock.git
+    sudo git clone https://github.com/bluemountaincyber/waynestock.git /opt/waynestock
+    sudo chown -R $USER:$USER /opt/waynestock
     ```
 
-2. Navigate to the AWS directory and run the `deploy-aws.sh` script to deploy the infrastructure:
+2. Navigate to the AWS directory and run the `build-aws.sh` script to deploy the infrastructure:
 
     ```bash
-    cd waynestock
+    cd /opt/waynestock
     ./build-aws.sh
     ```
 

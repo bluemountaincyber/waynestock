@@ -6,10 +6,6 @@ FAILURE="❌"
 RED='\033[0;31m'
 NC='\033[0m'
 
-# Move to script directory
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-cd "$SCRIPT_DIR" || exit 1
-
 echo -n "Checking if running in AWS CloudShell... "
 if [ -z "$AWS_EXECUTION_ENV" ]; then
     echo "${FAILURE}"
@@ -66,7 +62,7 @@ else
 fi
 
 echo -n "Initializing Terraform... "
-pushd /home/cloudshell-user/waynestock/aws &> /dev/null
+pushd /opt/waynestock/aws &> /dev/null
 /home/cloudshell-user/terraform init -upgrade -backend-config="bucket=${BACKEND_BUCKET}" -backend-config="key=terraform.tfstate" -backend-config="region=${AWS_REGION}" &> /dev/null
 if [ $? -eq 0 ]; then
     echo "${SUCCESS}"
@@ -78,7 +74,7 @@ fi
 popd &> /dev/null
 
 echo -n "Applying Terraform configuration (this will take a while)... "
-pushd /home/cloudshell-user/waynestock/aws &> /dev/null
+pushd /opt/waynestock/aws &> /dev/null
 /home/cloudshell-user/terraform apply -auto-approve &> /dev/null
 if [ $? -eq 0 ]; then
     echo "${SUCCESS}"
