@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Variables
-SUCCESS="\r[✅]"
-FAILURE="\r[❌]"
+SUCCESS="\r[\033[0;32m✓\033[0m]"
+FAILURE="\r[\033[0;31m✗\033[0m]"
 RED='\033[0;31m'
 NC='\033[0m'
 
