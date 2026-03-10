@@ -44,6 +44,7 @@ if ! aws s3 ls "s3://${BACKEND_BUCKET}" &> /dev/null; then
     echo -e "${RED}S3 bucket ${BACKEND_BUCKET} does not exist! Is this the right account?${NC}"
     exit 1
 fi
+echo "${SUCCESS}"
 
 echo -n "Installing Terraform... "
 if ! command -v /home/cloudshell-user/terraform &> /dev/null; then
