@@ -104,6 +104,7 @@ resource "aws_iam_policy" "purchase_seats" {
       }
     ]
   })
+  depends_on = [aws_s3_account_public_access_block.store_transactions]
 }
 
 resource "aws_iam_role" "purchase_seats" {
@@ -357,7 +358,7 @@ resource "aws_s3_bucket_policy" "config" {
         Resource = "${aws_s3_bucket.config.arn}/AWSLogs/${data.aws_caller_identity.current.account_id}/*"
         Condition = {
           StringEquals = {
-            "s3:x-amz-acl" = "bucket-owner-full-control",
+            "s3:x-amz-acl"      = "bucket-owner-full-control",
             "AWS:SourceAccount" = data.aws_caller_identity.current.account_id
           }
         }

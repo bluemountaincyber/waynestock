@@ -30,11 +30,11 @@ resource "aws_cloudwatch_log_group" "volunteers-httpd" {
 
 resource "aws_securityhub_account" "security_hub" {
   enable_default_standards = false
-  depends_on = [ aws_config_configuration_recorder_status.crs ]
+  depends_on               = [aws_config_configuration_recorder_status.crs]
 }
 
 resource "aws_securityhub_standards_subscription" "aws_best_practices" {
-  depends_on = [ aws_securityhub_account.security_hub ]
+  depends_on    = [aws_securityhub_account.security_hub]
   standards_arn = "arn:aws:securityhub:${var.region}::standards/aws-foundational-security-best-practices/v/1.0.0"
 }
 
@@ -50,7 +50,7 @@ resource "aws_config_delivery_channel" "dc" {
 }
 
 resource "aws_config_configuration_recorder_status" "crs" {
-  name = aws_config_configuration_recorder.cr.name
+  name       = aws_config_configuration_recorder.cr.name
   is_enabled = true
-  depends_on = [ aws_config_delivery_channel.dc ]
+  depends_on = [aws_config_delivery_channel.dc]
 }

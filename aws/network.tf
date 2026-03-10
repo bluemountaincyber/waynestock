@@ -266,15 +266,15 @@ EOF
 }
 
 resource "aws_vpc" "volunteer_vpc" {
-  cidr_block                       = "10.4.88.0/24"
-  enable_dns_hostnames             = true
+  cidr_block           = "10.4.88.0/24"
+  enable_dns_hostnames = true
 }
 
 resource "aws_subnet" "volunteer_subnet" {
-  vpc_id                          = aws_vpc.volunteer_vpc.id
-  cidr_block                      = "10.4.88.0/25"
-  availability_zone               = "${var.region}a"
-  map_public_ip_on_launch         = true
+  vpc_id                  = aws_vpc.volunteer_vpc.id
+  cidr_block              = "10.4.88.0/25"
+  availability_zone       = "${var.region}a"
+  map_public_ip_on_launch = true
 }
 
 resource "aws_internet_gateway" "volunteer_igw" {
@@ -306,9 +306,9 @@ resource "aws_security_group" "volunteer_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
     ipv6_cidr_blocks = ["::/0"]
   }
   ingress {
