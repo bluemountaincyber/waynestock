@@ -1,5 +1,7 @@
 #!/bin/bash
 
+clear
+
 # Variables
 SUCCESS="\r[\033[0;32m✓\033[0m]"
 FAILURE="\r[\033[0;31m✗\033[0m]"
@@ -22,7 +24,7 @@ echo
 if [[ ! $REPLY =~ ^[Yy]$ ]]; then
     echo "Aborting."
     exit 0
-fi                                                    
+fi
 
 # Move to script directory
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
