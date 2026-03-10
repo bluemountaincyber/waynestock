@@ -21,6 +21,21 @@ This repository contains Terraform code to deploy and manage the AWS infrastruct
 2. Navigate to the AWS directory and run the `deploy-aws.sh` script to deploy the infrastructure:
 
     ```bash
-    cd waynestock/aws
-    ./deploy-aws.sh
+    cd waynestock
+    ./build-aws.sh
+    ```
+
+### Destruction Steps
+
+1. Clone the repository to your AWS CloudShell instance if you haven't already:
+
+    ```bash
+    git clone https://github.com/bluemountaincyber/waynestock.git
+    ```
+
+2. Navigate to the AWS directory and run the `destroy-aws.sh` script to destroy the infrastructure:
+
+    ```bash
+    cd waynestock
+    ./destroy-aws.sh
     ```
