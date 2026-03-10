@@ -2,7 +2,7 @@
 
 # WayneStock Infrastructure as Code (IaC) Repository
 
-## Deploy AWS
+## AWS
 
 This repository contains Terraform code to deploy and manage the AWS infrastructure for WayneStock. The code is organized into modules and resources that define the necessary components for our cloud environment.
 
@@ -40,4 +40,42 @@ This repository contains Terraform code to deploy and manage the AWS infrastruct
     ```bash
     cd /opt/waynestock
     ./destroy-aws.sh
+    ```
+
+## Azure
+
+This repository also contains Terraform code to deploy and manage the Azure infrastructure for WayneStock. The code is organized into modules and resources that define the necessary components for our cloud environment.
+
+### Prerequisites
+
+- Azure Cloud Shell instance
+
+### Deployment Steps
+
+1. Clone the repository to your Azure Cloud Shell instance into `/home/${USER}/waynestock`:
+
+    ```bash
+    git clone https://github.com/bluemountaincyber/waynestock.git /home/${USER}/waynestock
+    ```
+
+2. Navigate to the Azure directory and run the `build-azure.sh` script to deploy the infrastructure:
+
+    ```bash
+    cd /home/${USER}/waynestock
+    ./build-azure.sh
+    ```
+
+### Destruction Steps
+
+1. Clone the repository to your Azure Cloud Shell instance if you haven't already:
+
+    ```bash
+    git clone https://github.com/bluemountaincyber/waynestock.git /home/${USER}/waynestock
+    ```
+
+2. Navigate to the Azure directory and run the `destroy-azure.sh` script to destroy the infrastructure:
+
+    ```bash
+    cd /home/${USER}/waynestock
+    ./destroy-azure.sh
     ```
