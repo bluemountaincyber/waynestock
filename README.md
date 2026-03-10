@@ -28,15 +28,16 @@ This repository contains Terraform code to deploy and manage the AWS infrastruct
 
 ### Destruction Steps
 
-1. Clone the repository to your AWS CloudShell instance if you haven't already:
+1. Clone the repository to your AWS CloudShell instance and change ownership to your user if you haven't already:
 
     ```bash
-    git clone https://github.com/bluemountaincyber/waynestock.git
+    sudo git clone https://github.com/bluemountaincyber/waynestock.git /opt/waynestock
+    sudo chown -R $USER:$USER /opt/waynestock
     ```
 
 2. Navigate to the AWS directory and run the `destroy-aws.sh` script to destroy the infrastructure:
 
     ```bash
-    cd waynestock
+    cd /opt/waynestock
     ./destroy-aws.sh
     ```
